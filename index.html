@@ -9,22 +9,20 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         @media (min-width: 576px) {
-           .btn-class{
-            text-align: center;
-           }
+            .btn-class {
+                text-align: center;
+            }
         }
-
-      
     </style>
 </head>
 
 <body style="padding: 3%;">
 
-    <h1 style="color: blue;">Datos de test</h1>
+    <h1 style="color: blue;">U1 | P1 | Consumo de API ReqRes.in</h1>
     <br>
     <div style="margin-bottom: 5%;">
-        <button id="btn-class" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-            data-bs-whatever="@getbootstrap">Nuevo Registro</button>
+        <button id="btn-class" type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Nuevo Registro</button>
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-2" id="datosregistrados">
@@ -40,22 +38,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form name="formRegister">
                         <div class="mb-3">
                             <label for="imgAvatar" class="col-form-label">Avatar:</label>
-                            <input type="text" class="form-control" id="imgAvatar" required>
+                            <input name="imgAvatar" type="text" class="form-control" id="imgAvatar" required>
                         </div>
                         <div class="mb-3">
                             <label for="emailText" class="col-form-label">Correo Electrónico:</label>
-                            <input id="emailText" class="form-control" type="email" required>
+                            <input name="emailText" id="emailText" class="form-control" type="email" required>
                         </div>
                         <div class="mb-3">
                             <label for="firstNameText" class="col-form-label">Apellido Paterno:</label>
-                            <input type="text" class="form-control" id="firstNameText" required>
+                            <input name="firstNameText" type="text" class="form-control" id="firstNameText" required>
                         </div>
                         <div class="mb-3">
                             <label for="LastNameText" class="col-form-label">Apellido Materno:</label>
-                            <input type="text" class="form-control" id="LastNameText" required/>
+                            <input name="LastNameText" type="text" class="form-control" id="LastNameText" required />
                         </div>
                     </form>
                 </div>
@@ -104,34 +102,37 @@
 
     async function Registrar() {
         let data = {
-            id: Date.now(),
-            email: document.getElementById("emailText").value,
-            first_name: document.getElementById("firstNameText").value,
-            last_name: document.getElementById("LastNameText").value,
-            avatar: document.getElementById("imgAvatar").value
-        }
-
+                    id: Date.now(),
+                    email: document.getElementById("emailText").value,
+                    first_name: document.getElementById("firstNameText").value,
+                    last_name: document.getElementById("LastNameText").value,
+                    avatar: document.getElementById("imgAvatar").value
+                };
+        let a = document.forms["formRegister"]["imgAvatar"].value;
+        let b = document.forms["formRegister"]["emailText"].value;
+        let c = document.forms["formRegister"]["firstNameText"].value;
+        let d = document.forms["formRegister"]["LastNameText"].value;
         try {
 
-          if(JSON.stringify(data)=='{}'){
-            alert("Todos los campos deben tener información")
-
-          }else{
-            const request = await fetch('https://reqres.in/api/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(data)
-            })
-            const response = await request.json()
-            swal({
-                title: "Registro correcto!",
-                text: "Los datos son: " + JSON.stringify(response),
-                icon: "success",
-                button: "Salir!",
-            });
-          }
+            if (a == "" || b == "" || c == "" || d == "") {
+                alert("Todos los campos deben estar llenos");
+            } else {
+                
+                const request = await fetch('https://reqres.in/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(data)
+                })
+                const response = await request.json()
+                swal({
+                    title: "Registro correcto!",
+                    text: "Los datos son: " + JSON.stringify(response),
+                    icon: "success",
+                    button: "Salir!",
+                });
+            }
             //alert('success: ' + JSON.stringify(response));
         } catch (error) {
             alert(error);
